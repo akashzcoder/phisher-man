@@ -1,1 +1,3 @@
-# phisher-man
+# PhisherMan
+
+![Screenshot](phishing.png)
