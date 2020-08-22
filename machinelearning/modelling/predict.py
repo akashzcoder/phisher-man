@@ -1,17 +1,16 @@
-from utils.utils import *
-import utils.config as cfg
 from tensorflow.keras import models
 import pickle
 from tensorflow.keras.preprocessing import sequence
 
 from machinelearning.preprocessing.ingestionAndWrangling import text_to_wordlist
+from machinelearning.utils import config
 
 
 def predict(spam: str):
-    model = models.load_model(cfg.spam_detector_path)
+    model = models.load_model(config.spam_detector_path)
     # Load tokenizer
-    tokenizer = pickle.load(open(cfg.tokenizer_path, 'rb'))
-    prediction = predict_spam(spam, model , tokenizer)
+    tokenizer = pickle.load(open(config.tokenizer_path, 'rb'))
+    prediction = predict_spam(spam, model, tokenizer)
     print(prediction)
 
 
