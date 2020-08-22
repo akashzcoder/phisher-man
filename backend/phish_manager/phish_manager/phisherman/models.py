@@ -8,3 +8,11 @@ class Incident(models.Model):
 
     class Meta:
         ordering = ['created']
+
+
+class Email(models.Model):
+    email = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created']

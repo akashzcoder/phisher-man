@@ -1,4 +1,4 @@
-from phish_manager.phisherman.models import Incident
+from phish_manager.phisherman.models import Incident, Email
 from rest_framework import serializers
 
 class IncidentSerializer(serializers.Serializer):
@@ -20,3 +20,13 @@ class IncidentSerializer(serializers.Serializer):
         instance.active = validated_data.get('active', instance.active)
         instance.save()
         return instance
+
+
+class EmailSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    email = serializers.CharField(max_length=1024, allow_blank=True)
+    created = serializers.DateTimeField(read_only=True)
+
+    # Create a new Incident instance given validated data
+    def create(self, validated_data):
+        return Email.objects.create(**validated_data)

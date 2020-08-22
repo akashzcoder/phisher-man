@@ -49,3 +49,4 @@ WORKDIR $CODE/backend/phish_manager
 RUN python manage.py makemigrations phisherman
 RUN python manage.py migrate
 RUN python manage.py runserver
+
