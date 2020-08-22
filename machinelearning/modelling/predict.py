@@ -12,6 +12,7 @@ def predict(spam: str):
     tokenizer = pickle.load(open(config.tokenizer_path, 'rb'))
     prediction = predict_spam(spam, model, tokenizer)
     print(prediction)
+    return prediction
 
 
 def predict_spam(email_text, model, tokenizer):
@@ -25,5 +26,4 @@ def predict_spam(email_text, model, tokenizer):
     tokens = tokenizer.texts_to_sequences([processed_text])
     paded_sequences = sequence.pad_sequences(tokens, maxlen=300, padding='post')
     prediction = model.predict(paded_sequences)
-
     return prediction[0][0]
