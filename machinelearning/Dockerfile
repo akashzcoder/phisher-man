@@ -36,4 +36,6 @@ RUN conda install conda==4.5.8
 
 # Create environment using file
 COPY environment.yml $CODE
+RUN pip install django
+RUN pip install djangorestframework
 RUN conda env update -f environment.yml -n root
