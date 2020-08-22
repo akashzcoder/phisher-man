@@ -39,7 +39,6 @@ COPY environment.yml $CODE
 RUN pip install django
 RUN pip install djangorestframework
 
-COPY ./machinelearning $CODE
 COPY ./backend $CODE
 
 RUN conda env update -f environment.yml -n root

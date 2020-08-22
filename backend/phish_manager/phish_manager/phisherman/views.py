@@ -10,7 +10,7 @@ from phish_manager.phisherman.serializers import IncidentSerializer, EmailSerial
 from phish_manager.phisherman.prediction import predict
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def incident_list(request):
     # List the list of all incidents
     if request.method == 'GET':
@@ -18,13 +18,6 @@ def incident_list(request):
         serializer = IncidentSerializer(incidents, many=True)
         return Response(serializer.data)
 
-    # Create a new incident
-    elif request.method == 'POST':
-        serializer = IncidentSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def incident_details(request, id):
