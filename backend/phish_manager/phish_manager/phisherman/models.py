@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 class Incident(models.Model):
     url = models.URLField()
     client = models.CharField(max_length=100, blank=False, default='Undefined')

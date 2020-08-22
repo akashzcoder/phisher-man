@@ -21,6 +21,7 @@ from phish_manager.phisherman import views
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('incidents/', views.incident_list),
+    path('incidents/<int:id>/', views.incident_details)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
