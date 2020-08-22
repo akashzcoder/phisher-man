@@ -2,7 +2,14 @@
 
 ![Screenshot](phishing.png)
 
-# Application Backend
+# To run the overall server:
+Step 1: `docker-compose build` <br>
+Step 2: `docker-compose up -d`
+
+# To bring the server down:
+1. `docker-compose stop -v`
+
+# To manually Run Application Backend
 1. Install Python & pip
 2. Navigate into the /backend/ folder
 

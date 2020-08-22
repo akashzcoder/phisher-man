@@ -26,7 +26,7 @@ def model_training():
     sequences = tokenizer.texts_to_sequences(data['text'])
     max_len = 300
     padded_docs = pad_sequences(sequences, maxlen=max_len, padding='post')
-    labels = np.array(data['spam'])
+    labels = np.array(data['email'])
     embeddings_index = dict()
     f = open(r'data/glove.6B.100d.txt', encoding="utf8")
     for line in f:

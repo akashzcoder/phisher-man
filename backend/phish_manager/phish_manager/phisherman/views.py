@@ -1,8 +1,14 @@
+import json
+
+from urlextract import URLExtract
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from phish_manager.phisherman.models import Incident
 from phish_manager.phisherman.serializers import IncidentSerializer, EmailSerializer
+
+from phish_manager.phisherman.prediction import predict
+
 
 @api_view(['GET', 'POST'])
 def incident_list(request):
@@ -47,10 +53,27 @@ def incident_details(request, id):
         incident.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 @api_view(['POST'])
 def post_email(request):
     if request.method == 'POST':
         serializer = EmailSerializer(data=request.data)
+        if 'email' in request.data:
+            email_content = json.loads(request.data['email'])
+            prediction_result = int(predict(email_content) * 100)
+            if prediction_result >= 50:
+                extractor = URLExtract()
+                urls = extractor.find_urls(email_content)
+                incident_data = dict()
+                incident_data['url'] = json.dump(urls)
+                incident_data['client'] = "RBC"
+                incident_data['active'] = True
+                incident_serializer = IncidentSerializer(data=incident_data)
+                if incident_serializer.is_valid():
+                    incident_serializer.save()
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
