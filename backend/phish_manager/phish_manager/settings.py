@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'phisherman.apps.PhishermanConfig',
+    'phish_manager.phisherman',
 ]
 
 MIDDLEWARE = [
