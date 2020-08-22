@@ -38,4 +38,14 @@ RUN conda install conda==4.5.8
 COPY environment.yml $CODE
 RUN pip install django
 RUN pip install djangorestframework
+
+COPY ./machinelearning $CODE
+COPY ./backend $CODE
+
 RUN conda env update -f environment.yml -n root
+
+# run the django server
+WORKDIR $CODE/backend/phish_manager
+RUN python manage.py makemigrations phisherman
+RUN python manage.py migrate
+RUN python manage.py runserver
