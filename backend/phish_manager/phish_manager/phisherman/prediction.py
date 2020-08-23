@@ -8,10 +8,10 @@ from tensorflow.keras.preprocessing import sequence
 
 
 # Path to model
-spam_detector_path = Path(r'model/spam_detector.h5')
+spam_detector_path = Path(r'./model/spam_detector.h5')
 
 # Path to tokenizer
-tokenizer_path = Path(r'model/tokenizer.pickle')
+tokenizer_path = Path(r'./model/tokenizer.pickle')
 
 url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
