@@ -1,15 +1,68 @@
+import string
+import re
+from pathlib import Path
+
 from tensorflow.keras import models
 import pickle
 from tensorflow.keras.preprocessing import sequence
 
-from machinelearning.preprocessing.ingestionAndWrangling import text_to_wordlist
-from machinelearning.utils import config
+
+# Path to model
+spam_detector_path = Path(r'../modelling/model/spam_detector.h5')
+
+# Path to tokenizer
+tokenizer_path = Path(r'../modelling/model/tokenizer.pickle')
+
+url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+
+
+def text_to_wordlist(text):
+    # Remove puncuation
+    text = text.translate(string.punctuation)
+    # Convert words to lower case and split them
+    text = text.lower().split()
+
+    # Remove stop words
+    # stops = set(stopwords.words("english"))
+    # text = [w for w in text if not w in stops and len(w) >= 3]
+
+    text = " ".join(text)
+    # Clean the text
+    text = re.sub(r"[^A-Za-z0-9^,!.\/'+-=]", " ", text)
+    text = re.sub(r"what's", "what is ", text)
+    text = re.sub(r"\'s", " ", text)
+    text = re.sub(r"\'ve", " have ", text)
+    text = re.sub(r"n't", " not ", text)
+    text = re.sub(r"i'm", "i am ", text)
+    text = re.sub(r"\'re", " are ", text)
+    text = re.sub(r"\'d", " would ", text)
+    text = re.sub(r"\'ll", " will ", text)
+    text = re.sub(r",", " ", text)
+    text = re.sub(r"\.", " ", text)
+    text = re.sub(r"!", " ! ", text)
+    text = re.sub(r"\/", " ", text)
+    text = re.sub(r"\^", " ^ ", text)
+    text = re.sub(r"\+", " + ", text)
+    text = re.sub(r"\-", " - ", text)
+    text = re.sub(r"\=", " = ", text)
+    text = re.sub(r"'", " ", text)
+    text = re.sub(r"(\d+)(k)", r"\g<1>000", text)
+    text = re.sub(r":", " : ", text)
+    text = re.sub(r" e g ", " eg ", text)
+    text = re.sub(r" b g ", " bg ", text)
+    text = re.sub(r" u s ", " american ", text)
+    text = re.sub(r"\0s", "0", text)
+    text = re.sub(r" 9 11 ", "911", text)
+    text = re.sub(r"e - mail", "email", text)
+    text = re.sub(r"j k", "jk", text)
+    text = re.sub(r"\s{2,}", " ", text)
+    return text
 
 
 def predict(email: str):
-    model = models.load_model(config.spam_detector_path)
+    model = models.load_model(spam_detector_path)
     # Load tokenizer
-    tokenizer = pickle.load(open(config.tokenizer_path, 'rb'))
+    tokenizer = pickle.load(open(tokenizer_path, 'rb'))
     prediction = predict_spam(email, model, tokenizer)
     print(prediction)
     return prediction

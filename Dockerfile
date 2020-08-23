@@ -44,7 +44,7 @@ COPY ./backend $CODE
 RUN conda env update -f environment.yml -n root
 
 # run the django server
-WORKDIR $CODE/backend/phish_manager
+WORKDIR $CODE/phish_manager
 RUN python manage.py makemigrations phisherman
 RUN python manage.py migrate
 RUN python manage.py runserver
