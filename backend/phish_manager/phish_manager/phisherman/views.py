@@ -65,7 +65,7 @@ def post_email(request):
                 if incident_serializer.is_valid():
                     incident_serializer.save()
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response("BAD REQUEST", status=status.HTTP_400_BAD_REQUEST)
 
         if serializer.is_valid():
             serializer.save()
